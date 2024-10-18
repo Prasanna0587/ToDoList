@@ -1,0 +1,155 @@
+/* Global Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
+
+.container {
+  width: 80%;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 3rem;
+  text-decoration: underline;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type="text"], input[type="number"], input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="button"] {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="button"]:hover {
+  background-color: #3e8e41;
+}
+
+#task_list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#task_list li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+#task_list li:last-child {
+  border-bottom: none;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #ccc;
+}
+
+/* Button Styles */
+
+.btn {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#add-task-btn {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+#sort-tasks-btn {
+  background-color: #2196F3;
+  color: #fff;
+}
+
+#complete-task-btn {
+  background-color: #FF9800;
+  color: #fff;
+}
+
+#view-all-tasks-btn {
+  background-color: #8BC34A;
+  color: #fff;
+}
+#complete_task {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#complete-selected-task-btn {
+  background-color: #FF9800;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#complete-selected-task-btn:hover {
+  background-color: #FFC107;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+/* Responsive Design */
+
+@media only screen and (max-width: 768px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .container {
+    width: 95%;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  input[type="text"], input[type="number"], input[type="date"] {
+    padding: 5px;
+  }
+  button[type="button"] {
+    padding: 5px 10px;
+  }
+}

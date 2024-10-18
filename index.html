@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List App</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List App</h1>
+        <form id="add-task-form">
+            <div class="form-group">
+                <label for="task_name">Task Name:</label>
+                <input type="text" id="task_name" name="task_name">
+            </div>
+            <div class="form-group">
+                <label for="task_priority">Task Priority:</label>
+                <input type="number" id="task_priority" name="task_priority" min="0" max="10">
+            </div>
+            <div class="form-group">
+                <label for="task_due_date">Task Due Date:</label>
+                <input type="date" id="task_due_date" name="task_due_date">
+            </div>
+            <button class="btn" id="add-task-btn">Add Task</button>
+        </form>
+        <br>
+        <button class="btn" id="sort-tasks-btn">Sort Tasks</button>
+        <button class="btn" id="complete-task-btn">Complete Task</button>
+        <button class="btn" id="view-all-tasks-btn">View All Tasks</button>
+
+        <div id="task_list"></div>
+
+        <div class="form-group">
+            <label for="complete_task">Choose a task to complete:</label>
+            <select id="complete_task" name="complete_task">
+                <!-- Populate the dropdown with existing tasks -->
+            </select>
+            <button class="btn" id="complete-selected-task-btn">Complete Selected Task</button>
+        </div>
+
+        <script>
+            document.getElementById('add-task-btn').addEventListener('click', function(event) {
+                event.preventDefault();
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/add_task', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        alert(response.message);
+                    }
+                };
+                xhr.send('task_name=' + document.getElementById('task_name').value +
+                          '&task_priority=' + document.getElementById('task_priority').value +
+                          '&task_due_date=' + document.getElementById('task_due_date').value);
+            });
+
+            document.getElementById('sort-tasks-btn').addEventListener('click', function() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/sort_tasks', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send('key=p'); // or 'key=dd' for due date
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        alert(response.message);
+                    }
+                };
+            });
+
+            document.getElementById('complete-task-btn').addEventListener('click', function() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/view_all_tasks', true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var tasks = JSON.parse(xhr.responseText).tasks;
+                        var taskList = '';
+                        for (var i = 0; i < tasks.length; i++) {
+                            taskList += '<option value="' + tasks[i].name + '">' + tasks[i].name + '</option>';
+                        }
+                        document.getElementById('complete_task').innerHTML = taskList;
+                    }
+                };
+                xhr.send();
+            });
+
+            document.getElementById('complete-selected-task-btn').addEventListener('click', function() {
+                var selectedTask = document.getElementById('complete_task').value;
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/complete_task', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send('task_name=' + selectedTask);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        alert(response.message);
+                    }
+                };
+            });
+
+            document.getElementById('view-all-tasks-btn').addEventListener('click', function() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/view_all_tasks', true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var tasks = JSON.parse(xhr.responseText).tasks;
+                        var taskList = '';
+                        for (var i = 0; i < tasks.length; i++) {
+                            var status = tasks[i].completed ? 'Completed' : 'Not Completed';
+                            var className = tasks[i].completed ? 'completed' : '';
+                            taskList += '<li class="' + className + '">' + tasks[i].name + ' (Priority: ' + tasks[i].priority + ', Due Date: ' + tasks[i].due_date + ') - ' + status + '</li>';
+                        }
+                        document.getElementById('task_list').innerHTML = '<ul>' + taskList + '</ul>';
+                    }
+                };
+                xhr.send();
+            });
+        </script>
+    </div>
+</body>
+</html>
